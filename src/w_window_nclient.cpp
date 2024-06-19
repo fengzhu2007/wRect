@@ -1,6 +1,7 @@
 #include "w_window_nclient.h"
 #include "w_system_button.h"
 #include "w_main_window.h"
+#include "w_dialog.h"
 #include <QHBoxLayout>
 #include <QStyleOption>
 #include <QPainter>
@@ -22,6 +23,7 @@ public:
     wSystemButton* minimize = nullptr;
     wSystemButton* maximize = nullptr;
     QLabel* logo;
+    QLabel* title;
     QMenuBar* menuBar = nullptr;
     int offsetX;
     int offsetY;
@@ -50,39 +52,62 @@ wWindowNClient::wWindowNClient(wMainWindow* parent)
     //button size 46*32
     //button image size 10*10
     //setAttribute(Qt::WA_TranslucentBackground);
+    this->initView(Window);
+
+}
+
+wWindowNClient::wWindowNClient(wDialog* parent)
+:QFrame(parent){
+    this->initView(Dialog);
+}
+
+void wWindowNClient::initView(Mode mode){
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QWidget::customContextMenuRequested, this, &wWindowNClient::showContextMenu);
     d = new wWindowNClientPrivate;
-    d->mode = Window;
+    d->title = nullptr;
+    d->mode = mode;
     d->logo = new QLabel(this);
-    d->logo->setObjectName("logo");
-    d->logo->setText(tr("LOGO"));
+    d->logo->setObjectName("system_logo");
+    //d->logo->setText(tr("LOGO"));
     d->logo->setPixmap(QPixmap(QString::fromUtf8(":/images/logo.png")).scaled(QSize(20,20),Qt::KeepAspectRatio,Qt::SmoothTransformation));
     //d->logo->setGeometry(QRect(0,0,32,32));
-    d->close = new wSystemButton(this,wSystemButton::Close);
-    d->minimize = new wSystemButton(this,wSystemButton::Minimize);
-    d->maximize = new wSystemButton(this,wSystemButton::Maximize);
+    if(mode==Window){
+        d->close = new wSystemButton(this,wSystemButton::Close);
+        d->minimize = new wSystemButton(this,wSystemButton::Minimize);
+        d->maximize = new wSystemButton(this,wSystemButton::Maximize);
+    }else if(mode==Dialog){
+        d->close = new wSystemButton(this,wSystemButton::Close);
+        ///d->minimize = new wSystemButton(this,wSystemButton::Minimize);
+       // d->maximize = new wSystemButton(this,wSystemButton::Maximize);
+        d->minimize = nullptr;
+        d->maximize = nullptr;
+    }
+
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
     layout->addSpacing(6);
     layout->addWidget(d->logo);
     layout->addStretch(1);
+    if(d->minimize!=nullptr)
     layout->addWidget(d->minimize);
+    if(d->maximize!=nullptr)
     layout->addWidget(d->maximize);
     layout->addWidget(d->close);
     this->setLayout(layout);
-    //QPixmap minimizeIcon = QApplication::style()->standardPixmap(QStyle::SP_TitleBarMinButton);
-
-    //d->logo->setPixmap(minimizeIcon);
-
 }
 
 void wWindowNClient::addMenuBar(QMenuBar* menuBar){
     menuBar->setParent(this);
     d->menuBar = menuBar;
     QHBoxLayout* layout = (QHBoxLayout*)this->layout();
-    layout->insertWidget(2,menuBar);
+    if(d->title==nullptr){
+        layout->insertWidget(2,menuBar);
+    }else{
+        layout->insertWidget(3,menuBar);
+    }
+
 }
 
 void wWindowNClient::showMaximizedMode(){
@@ -105,10 +130,22 @@ QMenuBar* wWindowNClient::menuBar(){
     return d->menuBar;
 }
 
+wWindowNClient::Mode wWindowNClient::mode(){
+    return d->mode;
+}
+
+void wWindowNClient::setWindowTitle(const QString& title){
+    if(d->title==nullptr){
+        d->title = new QLabel(this);
+        d->title->setObjectName("system_title");
+        QHBoxLayout* layout = (QHBoxLayout*)this->layout();
+        layout->insertWidget(2,d->title);
+    }
+    d->title->setText(title);
+}
+
 void wWindowNClient::showContextMenu(const QPoint &pos){
     QMenu contextMenu(this);
-
-
     if(d->sysClose==nullptr){
         //init system menu
         QStyle* style =  QApplication::style();
@@ -119,17 +156,15 @@ void wWindowNClient::showContextMenu(const QPoint &pos){
         d->sysRestore = new QAction(style->standardIcon(QStyle::SP_TitleBarNormalButton).pixmap(10,10),tr("Restore(&R)"),this);
         d->sysMove = new QAction(tr("Move(&M)"),this);
         d->sysResize = new QAction(tr("Resize(&S)"),this);
-
         connect(d->sysClose,&QAction::triggered,this,&wWindowNClient::onSystemClose);
         connect(d->sysMinimize,&QAction::triggered,this,&wWindowNClient::onSystemMinimize);
         connect(d->sysMaximize,&QAction::triggered,this,&wWindowNClient::onSystemMaximize);
         connect(d->sysRestore,&QAction::triggered,this,&wWindowNClient::onSystemRestore);
         connect(d->sysMove,&QAction::triggered,this,&wWindowNClient::onSystemMove);
         connect(d->sysResize,&QAction::triggered,this,&wWindowNClient::onSystemResize);
-
     }
 
-    if(topLevelWidget()->isMaximized()){
+    if(parentWidget()->isMaximized()){
         d->sysMove->setEnabled(false);
         d->sysMaximize->setEnabled(false);
         d->sysResize->setEnabled(false);
@@ -141,7 +176,11 @@ void wWindowNClient::showContextMenu(const QPoint &pos){
         d->sysRestore->setEnabled(false);
     }
 
-
+    if(d->mode==Dialog){
+        d->sysResize->setEnabled(false);
+        d->sysMaximize->setEnabled(false);
+        d->sysMinimize->setEnabled(false);
+    }
     contextMenu.addAction(d->sysRestore);
     contextMenu.addAction(d->sysMove);
     contextMenu.addAction(d->sysResize);
@@ -154,16 +193,17 @@ void wWindowNClient::showContextMenu(const QPoint &pos){
 
 void wWindowNClient::onSystemClose(){
     if(d->mode==Window){
-        wMainWindow* window = (wMainWindow*)topLevelWidget();
+        wMainWindow* window = (wMainWindow*)parentWidget();
         window->close();
     }else if(d->mode==Dialog){
-
+        wDialog* window = (wDialog*)parentWidget();
+        window->close();
     }
 }
 
 void wWindowNClient::onSystemMinimize(){
     if(d->mode==Window){
-        wMainWindow* window = (wMainWindow*)topLevelWidget();
+        wMainWindow* window = (wMainWindow*)parentWidget();
         window->showMinimized();
     }else if(d->mode==Dialog){
 
@@ -172,7 +212,7 @@ void wWindowNClient::onSystemMinimize(){
 
 void wWindowNClient::onSystemMaximize(){
     if(d->mode==Window){
-        wMainWindow* window = (wMainWindow*)topLevelWidget();
+        wMainWindow* window = (wMainWindow*)parentWidget();
         window->showMaximized();
     }else if(d->mode==Dialog){
 
@@ -181,7 +221,7 @@ void wWindowNClient::onSystemMaximize(){
 
 void wWindowNClient::onSystemRestore(){
     if(d->mode==Window){
-        wMainWindow* window = (wMainWindow*)topLevelWidget();
+        wMainWindow* window = (wMainWindow*)parentWidget();
         window->showNormal();
     }else if(d->mode==Dialog){
 
@@ -189,7 +229,7 @@ void wWindowNClient::onSystemRestore(){
 }
 
 void wWindowNClient::onSystemMove(){
-    QWidget *window = topLevelWidget();
+    QWidget *window = parentWidget();
     QPoint globalPos = window->mapToGlobal(QPoint(window->width() / 2, this->height() / 2));
     QCursor::setPos(globalPos);
     //window->setCursor(Qt::SizeAllCursor);
@@ -199,7 +239,7 @@ void wWindowNClient::onSystemMove(){
 void wWindowNClient::onSystemResize(){
 
 
-    QWidget *window = topLevelWidget();
+    QWidget *window = parentWidget();
     QPoint globalPos = window->mapToGlobal(QPoint(window->width() / 2, window->height() / 2));
     QCursor::setPos(globalPos);
     //window->setCursor(Qt::SizeAllCursor);
@@ -227,18 +267,18 @@ void wWindowNClient::mouseMoveEvent(QMouseEvent *e)
         x -= d->offsetX;
         y -= d->offsetY;
         //wMainWindow* window = (wMainWindow*)topLevelWidget();
-        QWidget* window = topLevelWidget();
+        QWidget* window = parentWidget();
         QPoint pos = window->pos();
         pos.rx() += x;
         pos.ry() += y;
         window->move(pos);
     }else{
-        if(topLevelWidget()->isMaximized()==false){
+        if(parentWidget()->isMaximized()==false){
             if(abs(d->offsetX - e->x())>3 || abs(d->offsetY-e->y())>3){
                 d->moving = true;
             }
         }
-        topLevelWidget()->unsetCursor();
+        parentWidget()->unsetCursor();
     }
 }
 
@@ -258,7 +298,7 @@ void wWindowNClient::mouseReleaseEvent(QMouseEvent *e)
 
 void wWindowNClient::mouseDoubleClickEvent(QMouseEvent *event){
     if(d->mode==Window){
-        wMainWindow* window = (wMainWindow*)topLevelWidget();
+        wMainWindow* window = (wMainWindow*)parentWidget();
         if(window->isMaximized()){
             window->showNormal();
         }else{

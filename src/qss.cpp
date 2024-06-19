@@ -8,7 +8,7 @@ QString QSS::global()
     //menu item hover #c9def5
     QString qss = ".wMainWindow{background-color:white;}"
                   "QFrame#background{background-color:white}"
-                  ".QMenuBar{padding:4px;border:0;background:#EEEEF2;}"
+                  ".QMenuBar{padding:5px 4px 0px 4px;border:0;background:#EEEEF2;}"
                   ".QMenuBar#menu_placeholder{height:32px;}"
                   ".QMenuBar::item:selected{background:#c9def5}"
                   ".QMenuBar::item:pressed {background:#f6f6f6;border:1px solid #cccedb;border-bottom:0;}"
@@ -22,7 +22,8 @@ QString QSS::global()
                   ".wSystemButton:hover{background-color:#fff;}"
                   ".wSystemButton:pressed{background-color:#007acc;}"
                   ".wWindowNClient{background-color:#EEEEF2;}"
-                  ".wWindowNClient>QLabel#logo{width:36px;height:32px;}";
+                  ".wWindowNClient>QLabel#system_logo{width:36px;height:32px;}"
+                  ".wWindowNClient>QLabel#system_title{height:32px;padding:0 4px 0 4px}";
     return qss;
 }
 

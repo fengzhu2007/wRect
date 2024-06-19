@@ -30,6 +30,9 @@ add_library(wRect SHARED
     src/qss.h src/qss.cpp
     src/w_window_nclient.h src/w_window_nclient.cpp
     src/w_system_button.h src/w_system_button.cpp
+    src/w_dialog.h src/w_dialog.cpp
+    src/w_tags.h src/w_tags.cpp
+    src/w_flow_layout.h src/w_flow_layout.cpp
 )
 
 

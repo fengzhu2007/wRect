@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QMenuBar>
 class wMainWindow;
+class wDialog;
 class wWindowNClientPrivate;
 class wWindowNClient : public QFrame
 {
@@ -14,12 +15,14 @@ public:
         Dialog
     };
     explicit wWindowNClient(wMainWindow* parent);
+    wWindowNClient(wDialog* parent);
     void addMenuBar(QMenuBar* menuBar);
     void showMaximizedMode();
     void showNormalMode();
     void resetState();
-
     QMenuBar* menuBar();
+    Mode mode();
+    void setWindowTitle(const QString& title);
 
 public slots:
     void showContextMenu(const QPoint &pos);
@@ -39,6 +42,9 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *e) override;
     virtual void mouseReleaseEvent(QMouseEvent *e) override;
     virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
+
+private:
+    void initView(Mode mode);
 
 private:
     wWindowNClientPrivate* d;

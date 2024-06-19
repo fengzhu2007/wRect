@@ -1,5 +1,7 @@
 #include "w_system_button.h"
 #include "w_main_window.h"
+#include "w_dialog.h"
+#include "w_window_nclient.h"
 #include <QMouseEvent>
 #include <QDebug>
 class wSystemButtonPrivate{
@@ -55,23 +57,36 @@ void wSystemButton::updateIcon(){
     }else if(d->state==wSystemButton::Active){
         state = "active";
     }
-    //qDebug()<<"name:"<<mode<<";state:"<<state;
     setIcon(QIcon(QString::fromUtf8(":/images/%1_%2.png").arg(mode).arg(state)));
 }
 
 void wSystemButton::onClicked(){
-    QWidget *window = topLevelWidget();
-    if(d->mode==wSystemButton::Close){
-        window->close();
-    }else if(d->mode==wSystemButton::Minimize){
-        ((wMainWindow*)window)->showMinimized();
-    }else if(d->mode==wSystemButton::Maximize){
-        ((wMainWindow*)window)->showMaximized();
-        //setMode(wSystemButton::Restore);
-    }else if(d->mode==wSystemButton::Restore){
-        ((wMainWindow*)window)->showNormal();
-        //setMode(wSystemButton::Maximize);
+    wWindowNClient* nclient = (wWindowNClient*)parentWidget();
+    wWindowNClient::Mode mode = nclient->mode();
+    if(mode==wWindowNClient::Window){
+        wMainWindow* window = (wMainWindow*)nclient->parentWidget();
+        if(d->mode==wSystemButton::Close){
+            window->close();
+        }else if(d->mode==wSystemButton::Minimize){
+            window->showMinimized();
+        }else if(d->mode==wSystemButton::Maximize){
+            window->showMaximized();
+        }else if(d->mode==wSystemButton::Restore){
+            window->showNormal();
+        }
+    }else if(mode==wWindowNClient::Dialog){
+        wDialog* window = (wDialog*)nclient->parentWidget();
+        if(d->mode==wSystemButton::Close){
+            window->close();
+        }else if(d->mode==wSystemButton::Minimize){
+            window->showMinimized();
+        }else if(d->mode==wSystemButton::Maximize){
+            window->showMaximized();
+        }else if(d->mode==wSystemButton::Restore){
+            window->showNormal();
+        }
     }
+
 }
 
 void wSystemButton::enterEvent(QEvent *event){
