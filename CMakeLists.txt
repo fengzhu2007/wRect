@@ -33,6 +33,8 @@ add_library(wRect SHARED
     src/w_dialog.h src/w_dialog.cpp
     src/w_tags.h src/w_tags.cpp
     src/w_flow_layout.h src/w_flow_layout.cpp
+    src/w_toast.h src/w_toast.cpp
+
 )
 
 
