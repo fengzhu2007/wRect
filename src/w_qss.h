@@ -1,15 +1,15 @@
-#ifndef QSS_H
-#define QSS_H
+#ifndef W_QSS_H
+#define W_QSS_H
 #include <QString>
 #include "global.h"
 
 
 
-class WRECT_EXPORT QSS {
+class WRECT_EXPORT wQSS {
 public:
     static QString  global();
 
 };
 
 
-#endif // QSS_H
+#endif // W_QSS_H

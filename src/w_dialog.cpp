@@ -1,7 +1,7 @@
 #include "w_dialog.h"
 #include "w_window_resizer.h"
 #include "w_window_nclient.h"
-#include "qss.h"
+#include "w_qss.h"
 #include <QResizeEvent>
 #include <QVBoxLayout>
 #include <QGraphicsDropShadowEffect>
@@ -26,7 +26,7 @@ wDialog::wDialog(QWidget* parent)
 {
     d = new wDialogPrivate();
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-    this->setStyleSheet(QSS::global());
+    QDialog::setStyleSheet(wQSS::global());
     //initResizer();
     setAttribute(Qt::WA_TranslucentBackground);
     setContentsMargins(d->resizer_size,d->resizer_size,d->resizer_size,d->resizer_size);
@@ -121,6 +121,10 @@ void wDialog::updateNClient(){
 
 void wDialog::setWindowTitle(const QString& title){
     d->nclient->setWindowTitle(title);
+}
+
+void wDialog::setStyleSheet(const QString& qss){
+    QDialog::setStyleSheet(wQSS::global()+qss);
 }
 
 void wDialog::resizeEvent(QResizeEvent *event)

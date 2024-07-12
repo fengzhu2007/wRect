@@ -1,7 +1,7 @@
 #include "w_main_window.h"
 #include "w_window_resizer.h"
 #include "w_window_nclient.h"
-#include "qss.h"
+#include "w_qss.h"
 #include <QMenuBar>
 #include <QResizeEvent>
 #include <QVBoxLayout>
@@ -30,7 +30,7 @@ wMainWindow::wMainWindow(QWidget *parent)
 {
     d = new wMainWindowPrivate();
     setWindowFlags(Qt::FramelessWindowHint);
-    this->setStyleSheet(QSS::global());
+    this->setStyleSheet(wQSS::global());
 
     initResizer();
     //setAttribute(Qt::WA_NoSystemBackground);

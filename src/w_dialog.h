@@ -12,6 +12,7 @@ public:
     void updateResizer();
     void updateNClient();
     void setWindowTitle(const QString& title);
+    void setStyleSheet(const QString& qss);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

@@ -27,7 +27,7 @@ add_library(wRect SHARED
     src/global.h
     src/w_main_window.h src/w_main_window.cpp
     src/w_window_resizer.h src/w_window_resizer.cpp
-    src/qss.h src/qss.cpp
+    src/w_qss.h src/w_qss.cpp
     src/w_window_nclient.h src/w_window_nclient.cpp
     src/w_system_button.h src/w_system_button.cpp
     src/w_dialog.h src/w_dialog.cpp
