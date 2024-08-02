@@ -14,5 +14,6 @@
         <file>images/restore_normal.png</file>
         <file>images/logo.png</file>
         <file>images/toolbar_handle.png</file>
+        <file>images/Loading_16x.svg</file>
     </qresource>
 </RCC>

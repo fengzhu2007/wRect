@@ -8,8 +8,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core WinExtras)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core WinExtras)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core WinExtras Svg)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core WinExtras Svg)
 
 
 include_directories(SYSTEM "./src")
@@ -34,6 +34,7 @@ add_library(wRect SHARED
     src/w_tags.h src/w_tags.cpp
     src/w_flow_layout.h src/w_flow_layout.cpp
     src/w_toast.h src/w_toast.cpp
+    src/w_spin.h src/w_spin.cpp
 
 )
 
@@ -42,7 +43,7 @@ add_library(wRect SHARED
 
 
 
-target_link_libraries(wRect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::WinExtras)
+target_link_libraries(wRect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::WinExtras Qt${QT_VERSION_MAJOR}::Svg)
 
 target_compile_definitions(wRect PRIVATE WRECT_LIBRARY)
 
