@@ -127,6 +127,36 @@ void wDialog::setStyleSheet(const QString& qss){
     QDialog::setStyleSheet(wQSS::global()+qss);
 }
 
+void wDialog::hideNClient(){
+    QLayout* layout = this->layout();
+    if(layout!=nullptr){
+        QMargins margins = layout->contentsMargins();
+        if(!margins.isNull()){
+            margins.setTop(margins.top() - 32);
+            layout->setContentsMargins(margins);
+        }else{
+            QMargins margins = {0,0,0,0};
+            layout->setContentsMargins(margins);
+        }
+    }
+    d->nclient->hide();
+}
+
+void wDialog::showNClient(){
+    QLayout* layout = this->layout();
+    if(layout!=nullptr){
+        QMargins margins = layout->contentsMargins();
+        if(!margins.isNull()){
+            margins.setTop(margins.top()+32);
+            layout->setContentsMargins(margins);
+        }else{
+            QMargins margins = {0,32,0,0};
+            layout->setContentsMargins(margins);
+        }
+    }
+    d->nclient->show();
+}
+
 void wDialog::resizeEvent(QResizeEvent *event)
 {
     QDialog::resizeEvent(event);

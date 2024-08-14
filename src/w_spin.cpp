@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QPropertyAnimation>
 #include <QGraphicsOpacityEffect>
+#include <QDebug>
 class wSpinPrivate{
 public:
     QWidget* parent;
@@ -62,6 +63,9 @@ void wSpin::hideLoading(){
 }
 
 void wSpin::resize(){
-    auto rect = d->parent->geometry();
-    d->mask->setGeometry(rect);
+     if(d->spin!=nullptr){
+        auto rect = d->parent->geometry();
+        d->mask->setGeometry(rect);
+    }
+
 }

@@ -13,6 +13,8 @@ public:
     void updateNClient();
     void setWindowTitle(const QString& title);
     void setStyleSheet(const QString& qss);
+    void hideNClient();
+    void showNClient();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

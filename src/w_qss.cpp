@@ -23,7 +23,8 @@ QString wQSS::global()
                   ".wSystemButton:pressed{background-color:#007acc;}"
                   ".wWindowNClient{background-color:#EEEEF2;}"
                   ".wWindowNClient>QLabel#system_logo{width:36px;height:32px;}"
-                  ".wWindowNClient>QLabel#system_title{height:32px;padding:0 4px 0 4px}";
+                  ".wWindowNClient>QLabel#system_title{height:32px;padding:0 4px 0 4px}"
+                  ".wProgressBar>QFrame#bar{background-color:#007acc}";
     return qss;
 }
 

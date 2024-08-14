@@ -35,6 +35,7 @@ add_library(wRect SHARED
     src/w_flow_layout.h src/w_flow_layout.cpp
     src/w_toast.h src/w_toast.cpp
     src/w_spin.h src/w_spin.cpp
+    src/w_progress_bar.h src/w_progress_bar.cpp
 
 )
 

@@ -110,7 +110,7 @@ void wToast::paintEvent(QPaintEvent *e){
     if(textWidth > rc.width()){
         int maxWidth = this->maximumWidth();
         //int minHeight = this->minimumHeight();
-        //qDebug()<<"minHeight:"<<minHeight<<";textHeight:"<<textHeight;
+        //qDebug()<<"textWidth:"<<textWidth<<";maxWidth:"<<maxWidth;
         int line = 1;
         if(textWidth>maxWidth){
             line = static_cast<int>(ceil(textWidth*1.0f / maxWidth));
@@ -120,10 +120,14 @@ void wToast::paintEvent(QPaintEvent *e){
                 rc.setY(rc.y() - textHeight*0.4*line);
             }
             rc.setHeight((textHeight * 1.8) * line);
+        }else{
+            //rc.setHeight((textHeight * 1.8) * line);
         }
+
         rc.setX(rc.x() - (textWidth - rc.width()) / 2);
         rc.setWidth(textWidth);
         //rc.setHeight()
+        //qDebug()<<"line:"<<line<<rc<<(textHeight * 1.4) * line;
         this->setGeometry(rc);
     }
     painter.drawRoundedRect(QRect(0,0,rc.width(),rc.height()),3,3);
@@ -147,10 +151,12 @@ void wToast::showText(const QString& text){
     QRect rect = widget->geometry();
     QPoint pos = widget->pos();
     QSize size = toast->sizeHint();
+    size.setHeight(36);
+   // qDebug()<<"size:"<<size;
     int x = (rect.width() - size.width()) / 2 + pos.x();
     int y = (rect.height() -  100) + pos.y();
     auto result = QRect(x,y,size.width(),size.height());
-    //toast->setGeometry(result);
+    toast->setGeometry(result);
     toast->move(QPoint(x,y));
     toast->autoClose(wToast::timeout);
     toast->show();
