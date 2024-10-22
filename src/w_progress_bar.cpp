@@ -22,6 +22,7 @@ wProgressBar::wProgressBar(QWidget* parent)
     d->bar->setObjectName(QString::fromUtf8("bar"));
     //d->bar->setStyleSheet("background:red");
     d->bar->raise();
+    d->bar->hide();
     d->animation = new QPropertyAnimation(d->bar,"geometry");
     d->animation->setDuration(1000);
     d->animation->setLoopCount(-1);
