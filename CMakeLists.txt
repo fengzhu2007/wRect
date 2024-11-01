@@ -12,8 +12,13 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core WinExtras Svg)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core WinExtras Svg)
 
 
+
+
 include_directories(SYSTEM "./src")
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DQ_DEBUG)
+endif()
 
 set(RESOURCES
     src/res.qrc
