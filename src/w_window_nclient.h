@@ -23,6 +23,7 @@ public:
     QMenuBar* menuBar();
     Mode mode();
     void setWindowTitle(const QString& title);
+    void buttonsReset();
 
 public slots:
     void showContextMenu(const QPoint &pos);

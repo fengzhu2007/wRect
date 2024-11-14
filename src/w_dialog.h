@@ -19,7 +19,7 @@ public:
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;
-
+    virtual void showEvent(QShowEvent* event) override;
 
 private:
     void initResizer();

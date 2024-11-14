@@ -48,9 +48,15 @@ void wDialog::resetupUi(){
             QMargins margins = {0,32,0,0};
             layout->setContentsMargins(margins);
         }
+        this->setMinimumHeight(this->size().height() + 32);
+        //qDebug()<<this->sizeHint()<<this->minimumSizeHint()<<this->minimumSize()<<this->size()<<this->geometry();
+        /*auto rect = this->geometry();
+        rect.setHeight(rect.height() + 32);
+        this->setGeometry(rect);*/
     }else{
         qDebug()<<"layout is null";
     }
+
     this->initNClient();
     this->initBackground();
 }
@@ -181,4 +187,8 @@ void wDialog::paintEvent(QPaintEvent *event){
     }
 }
 
+void wDialog::showEvent(QShowEvent* event){
+    d->nclient->buttonsReset();
+    QDialog::showEvent(event);
+}
 

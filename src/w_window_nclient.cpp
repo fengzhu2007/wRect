@@ -11,6 +11,7 @@
 #include <QApplication>
 #include <QAction>
 #include <QMenuBar>
+#include <QDebug>
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -142,6 +143,17 @@ void wWindowNClient::setWindowTitle(const QString& title){
         layout->insertWidget(2,d->title);
     }
     d->title->setText(title);
+}
+
+void wWindowNClient::buttonsReset(){
+    if(d->close!=nullptr){
+        QEvent leaveEvent(QEvent::Leave);
+        QCoreApplication::sendEvent(d->close, &leaveEvent);
+    }
+    if(d->minimize!=nullptr){
+        QEvent leaveEvent(QEvent::Leave);
+        QCoreApplication::sendEvent(d->minimize, &leaveEvent);
+    }
 }
 
 void wWindowNClient::showContextMenu(const QPoint &pos){
