@@ -30,7 +30,7 @@ wMainWindow::wMainWindow(QWidget *parent)
 {
     d = new wMainWindowPrivate();
     setWindowFlags(Qt::FramelessWindowHint);
-    this->setStyleSheet(wQSS::global());
+    QMainWindow::setStyleSheet(wQSS::global());
 
     initResizer();
     //setAttribute(Qt::WA_NoSystemBackground);
@@ -154,6 +154,10 @@ void wMainWindow::showNormal(){
     for(int i=0;i<8;i++){
         d->regions[i]->show();
     }
+}
+
+void wMainWindow::setStyleSheet(const QString& stylesheet){
+    QMainWindow::setStyleSheet(wQSS::global() + stylesheet);
 }
 
 QMenuBar* wMainWindow::menuBar(){

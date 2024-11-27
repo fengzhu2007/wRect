@@ -18,6 +18,7 @@ public:
     void showMinimized();
     void showMaximized();
     void showNormal();
+    void setStyleSheet(const QString& stylesheet);
 
     QMenuBar* menuBar();
 

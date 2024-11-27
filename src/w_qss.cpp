@@ -17,7 +17,7 @@ QString wQSS::global()
                   ".QToolBar:top{background-color:#EEEEF2;border:0;}"
                   ".QToolBar::icon{padding:5px}"
                   ".QToolBar::handle{height:16px;width:20px;image:url(':/images/toolbar_handle.png')}"
-                  ".QStatusBar{background-color:#007acc}"
+                  ".QStatusBar{background-color:#007acc;}"
                   ".wSystemButton{background-color: transparent; border: none;width:46px;height:32px;}"
                   ".wSystemButton:hover{background-color:#fff;}"
                   ".wSystemButton:pressed{background-color:#007acc;}"
