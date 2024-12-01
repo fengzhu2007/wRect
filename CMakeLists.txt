@@ -8,9 +8,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+if(WIN32)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core WinExtras Svg)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core WinExtras Svg)
-
+else()
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core  Svg)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core  Svg)
+endif()
 
 
 
@@ -47,18 +52,26 @@ add_library(wRect SHARED
 
 
 
-
+if(WIN32)
 
 target_link_libraries(wRect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::WinExtras Qt${QT_VERSION_MAJOR}::Svg)
+
+else()
+    target_link_libraries(wRect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core  Qt${QT_VERSION_MAJOR}::Svg)
+
+endif()
 
 target_compile_definitions(wRect PRIVATE WRECT_LIBRARY)
 
 
-
+if(WIN32)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy  ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.dll        ${CMAKE_BINARY_DIR}/src/${PROJECT_NAME}.dll
     COMMENT "Copying file to binary directory"
 )
+else()
+
+endif()
 
 
 ################demo#################################
