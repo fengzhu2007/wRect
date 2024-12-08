@@ -3,6 +3,18 @@
 #include "global.h"
 #include <QMainWindow>
 
+#ifdef Q_OS_MAC
+class WRECT_EXPORT wMainWindow : public QMainWindow
+{
+    Q_OBJECT
+public:
+    explicit wMainWindow(QWidget *parent = nullptr);
+    ~wMainWindow();
+    void resetupUi();
+};
+
+
+#else
 class wMainWindowPrivate;
 class WRECT_EXPORT wMainWindow : public QMainWindow
 {
@@ -40,5 +52,8 @@ private:
 signals:
 
 };
+
+#endif
+
 
 #endif // W_MAIN_WINDOW_H

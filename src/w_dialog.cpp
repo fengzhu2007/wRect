@@ -10,6 +10,29 @@
 #include <QLabel>
 #include <QDebug>
 
+
+#ifdef Q_OS_MAC
+
+wDialog::wDialog(QWidget* parent)
+    :QDialog(parent)
+{
+    //QDialog::setStyleSheet(wQSS::global());
+}
+
+wDialog::~wDialog(){
+
+}
+void wDialog::resetupUi(){
+}
+void wDialog::hideNClient(){
+}
+void wDialog::showNClient(){
+}
+
+#else
+
+
+
 class wDialogPrivate {
 public:
     wWindowResizer* regions[8];
@@ -192,3 +215,4 @@ void wDialog::showEvent(QShowEvent* event){
     QDialog::showEvent(event);
 }
 
+#endif

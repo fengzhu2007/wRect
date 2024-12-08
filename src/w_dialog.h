@@ -2,11 +2,30 @@
 #define WDIALOG_H
 #include "global.h"
 #include <QDialog>
+
+
+#ifdef Q_OS_MAC
+
+class WRECT_EXPORT wDialog : public QDialog
+{
+public:
+    explicit wDialog(QWidget* parent);
+    ~wDialog();
+    void resetupUi();
+    void hideNClient();
+    void showNClient();
+
+};
+
+
+
+#else
+
 class wDialogPrivate;
 class WRECT_EXPORT wDialog : public QDialog
 {
 public:
-    wDialog(QWidget* parent);
+    explicit wDialog(QWidget* parent);
     ~wDialog();
     void resetupUi();
     void updateResizer();
@@ -28,5 +47,7 @@ private:
 private:
     wDialogPrivate *d;
 };
+
+#endif
 
 #endif // WDIALOG_H

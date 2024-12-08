@@ -11,6 +11,25 @@
 #include <QLabel>
 #include <QDebug>
 
+#ifdef Q_OS_MAC
+
+
+wMainWindow::wMainWindow(QWidget *parent)
+    : QMainWindow{parent}
+{
+    //QMainWindow::setStyleSheet(wQSS::global());
+}
+
+wMainWindow::~wMainWindow(){
+
+}
+
+void wMainWindow::resetupUi(){
+
+}
+
+#else
+
 
 class wMainWindowPrivate {
 public:
@@ -209,4 +228,6 @@ void wMainWindow::paintEvent(QPaintEvent *event){
     }
     //border color #9b9fb9
 }
+
+#endif
 
