@@ -7,7 +7,7 @@ QString wQSS::global()
     //menu bakcground #f6f6f6 border:#cccedb color:#1e1e1e
     //menu item hover #c9def5
     QString qss = ".wMainWindow{background-color:white;}"
-                  "QFrame#background{background-color:white}"
+                  ".QFrame#background{background-color:white}"
                   ".QToolBar{background:#EEEEF2;}"
                   ".QMenuBar{padding:5px 4px 0px 4px;border:0;background:#EEEEF2;}"
                   ".QMenuBar#menu_placeholder{height:32px;}"

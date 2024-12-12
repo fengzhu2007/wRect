@@ -63,7 +63,9 @@ wDialog::~wDialog(){
 void wDialog::resetupUi(){
     QLayout* layout = this->layout();
     if(layout!=nullptr){
+        layout->setSpacing(0);
         QMargins margins = layout->contentsMargins();
+        //qDebug()<<"margins"<<margins;
         if(!margins.isNull()){
             margins.setTop(margins.top()+32);
             layout->setContentsMargins(margins);
@@ -71,11 +73,8 @@ void wDialog::resetupUi(){
             QMargins margins = {0,32,0,0};
             layout->setContentsMargins(margins);
         }
+        //qDebug()<<"layout"<<layout->geometry();
         this->setMinimumHeight(this->size().height() + 32);
-        //qDebug()<<this->sizeHint()<<this->minimumSizeHint()<<this->minimumSize()<<this->size()<<this->geometry();
-        /*auto rect = this->geometry();
-        rect.setHeight(rect.height() + 32);
-        this->setGeometry(rect);*/
     }else{
         qDebug()<<"layout is null";
     }
@@ -174,6 +173,7 @@ void wDialog::hideNClient(){
 void wDialog::showNClient(){
     QLayout* layout = this->layout();
     if(layout!=nullptr){
+        layout->setMargin(0);
         QMargins margins = layout->contentsMargins();
         if(!margins.isNull()){
             margins.setTop(margins.top()+32);
@@ -182,6 +182,7 @@ void wDialog::showNClient(){
             QMargins margins = {0,32,0,0};
             layout->setContentsMargins(margins);
         }
+
     }
     d->nclient->show();
 }
@@ -195,6 +196,9 @@ void wDialog::resizeEvent(QResizeEvent *event)
         QRect rc = this->rect();
         d->background->setGeometry(rc.x()+d->resizer_size,rc.y()+d->resizer_size,rc.width()-2*d->resizer_size,rc.height()-2*d->resizer_size);
     }
+    qDebug()<<event->size()<<this->rect()<<this->layout()->geometry()<<this->layout()->contentsMargins();
+
+
 }
 
 void wDialog::paintEvent(QPaintEvent *event){

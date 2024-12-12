@@ -63,6 +63,9 @@ wWindowNClient::wWindowNClient(wDialog* parent)
 }
 
 void wWindowNClient::initView(Mode mode){
+    this->setFixedHeight(32);
+    this->setMinimumHeight(32);
+    this->setMaximumHeight(32);
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QWidget::customContextMenuRequested, this, &wWindowNClient::showContextMenu);
     d = new wWindowNClientPrivate;
