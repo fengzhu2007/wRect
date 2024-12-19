@@ -73,8 +73,11 @@ void wWindowNClient::initView(Mode mode){
     d->mode = mode;
     d->logo = new QLabel(this);
     d->logo->setObjectName("system_logo");
-    //d->logo->setText(tr("LOGO"));
-    d->logo->setPixmap(QPixmap(QString::fromUtf8(":/images/logo.png")).scaled(QSize(20,20),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    QPixmap pixmap(":/images/logo.png");
+    if(pixmap.isNull()){
+        qDebug()<<"logo is null";
+    }
+    d->logo->setPixmap(pixmap.scaled(QSize(20,20),Qt::KeepAspectRatio,Qt::SmoothTransformation));
     //d->logo->setGeometry(QRect(0,0,32,32));
     if(mode==Window){
         d->close = new wSystemButton(this,wSystemButton::Close);

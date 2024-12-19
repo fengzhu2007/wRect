@@ -1,4 +1,5 @@
 #include "w_toast.h"
+#include <cmath>
 #include <QApplication>
 #include <QTimer>
 #include <QPainter>
@@ -113,7 +114,7 @@ void wToast::paintEvent(QPaintEvent *e){
         //qDebug()<<"textWidth:"<<textWidth<<";maxWidth:"<<maxWidth;
         int line = 1;
         if(textWidth>maxWidth){
-            line = static_cast<int>(ceil(textWidth*1.0f / maxWidth));
+            line = static_cast<int>(std::ceil(textWidth*1.0f / maxWidth));
             textWidth = maxWidth;
 
             if(line>1){
