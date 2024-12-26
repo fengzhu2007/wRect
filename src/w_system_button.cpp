@@ -1,6 +1,7 @@
 #include "w_system_button.h"
 #include "w_main_window.h"
 #include "w_dialog.h"
+#include "w_window.h"
 #include "w_window_nclient.h"
 #include <QMouseEvent>
 #include <QDebug>
@@ -63,7 +64,7 @@ void wSystemButton::updateIcon(){
 void wSystemButton::onClicked(){
     wWindowNClient* nclient = (wWindowNClient*)parentWidget();
     wWindowNClient::Mode mode = nclient->mode();
-    if(mode==wWindowNClient::Window){
+    if(mode==wWindowNClient::MainWindow){
         wMainWindow* window = (wMainWindow*)nclient->parentWidget();
         if(d->mode==wSystemButton::Close){
             window->close();
@@ -76,6 +77,17 @@ void wSystemButton::onClicked(){
         }
     }else if(mode==wWindowNClient::Dialog){
         wDialog* window = (wDialog*)nclient->parentWidget();
+        if(d->mode==wSystemButton::Close){
+            window->close();
+        }else if(d->mode==wSystemButton::Minimize){
+            window->showMinimized();
+        }else if(d->mode==wSystemButton::Maximize){
+            window->showMaximized();
+        }else if(d->mode==wSystemButton::Restore){
+            window->showNormal();
+        }
+    }else if(mode==wWindowNClient::Window){
+        wWindow* window = (wWindow*)nclient->parentWidget();
         if(d->mode==wSystemButton::Close){
             window->close();
         }else if(d->mode==wSystemButton::Minimize){

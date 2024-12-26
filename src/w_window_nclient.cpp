@@ -1,6 +1,7 @@
 #include "w_window_nclient.h"
 #include "w_system_button.h"
 #include "w_main_window.h"
+#include "w_window.h"
 #include "w_dialog.h"
 #include <QHBoxLayout>
 #include <QStyleOption>
@@ -53,13 +54,18 @@ wWindowNClient::wWindowNClient(wMainWindow* parent)
     //button size 46*32
     //button image size 10*10
     //setAttribute(Qt::WA_TranslucentBackground);
-    this->initView(Window);
+    this->initView(MainWindow);
 
 }
 
 wWindowNClient::wWindowNClient(wDialog* parent)
 :QFrame(parent){
     this->initView(Dialog);
+}
+
+wWindowNClient::wWindowNClient(wWindow* parent)
+:QFrame(parent){
+    this->initView(Window);
 }
 
 void wWindowNClient::initView(Mode mode){
@@ -79,7 +85,7 @@ void wWindowNClient::initView(Mode mode){
     }
     d->logo->setPixmap(pixmap.scaled(QSize(20,20),Qt::KeepAspectRatio,Qt::SmoothTransformation));
     //d->logo->setGeometry(QRect(0,0,32,32));
-    if(mode==Window){
+    if(mode==MainWindow || mode==Window){
         d->close = new wSystemButton(this,wSystemButton::Close);
         d->minimize = new wSystemButton(this,wSystemButton::Minimize);
         d->maximize = new wSystemButton(this,wSystemButton::Maximize);
@@ -210,39 +216,52 @@ void wWindowNClient::showContextMenu(const QPoint &pos){
 }
 
 void wWindowNClient::onSystemClose(){
-    if(d->mode==Window){
+    qDebug()<<"mode"<<d->mode;
+    if(d->mode==MainWindow){
         wMainWindow* window = (wMainWindow*)parentWidget();
         window->close();
     }else if(d->mode==Dialog){
         wDialog* window = (wDialog*)parentWidget();
         window->close();
+    }else if(d->mode==Window){
+        auto window = (wWindow*)parentWidget();
+        window->close();
     }
 }
 
 void wWindowNClient::onSystemMinimize(){
-    if(d->mode==Window){
+    if(d->mode==MainWindow){
         wMainWindow* window = (wMainWindow*)parentWidget();
         window->showMinimized();
     }else if(d->mode==Dialog){
 
+    }else if(d->mode==Window){
+        auto window = (wWindow*)parentWidget();
+        window->showMinimized();
     }
 }
 
 void wWindowNClient::onSystemMaximize(){
-    if(d->mode==Window){
+    if(d->mode==MainWindow){
         wMainWindow* window = (wMainWindow*)parentWidget();
         window->showMaximized();
     }else if(d->mode==Dialog){
 
+    }else if(d->mode==Window){
+        auto window = (wWindow*)parentWidget();
+        window->showMinimized();
     }
 }
 
 void wWindowNClient::onSystemRestore(){
-    if(d->mode==Window){
+    if(d->mode==MainWindow){
         wMainWindow* window = (wMainWindow*)parentWidget();
         window->showNormal();
     }else if(d->mode==Dialog){
 
+    }else if(d->mode==Window){
+        auto window = (wWindow*)parentWidget();
+        window->showMinimized();
     }
 }
 
@@ -315,7 +334,7 @@ void wWindowNClient::mouseReleaseEvent(QMouseEvent *e)
 }
 
 void wWindowNClient::mouseDoubleClickEvent(QMouseEvent *event){
-    if(d->mode==Window){
+    if(d->mode==MainWindow){
         wMainWindow* window = (wMainWindow*)parentWidget();
         if(window->isMaximized()){
             window->showNormal();
@@ -324,6 +343,13 @@ void wWindowNClient::mouseDoubleClickEvent(QMouseEvent *event){
         }
     }else if(d->mode==Dialog){
 
+    }else if(d->mode==Window){
+        auto window = (wWindow*)parentWidget();
+        if(window->isMaximized()){
+            window->showNormal();
+        }else{
+            window->showMaximized();
+        }
     }
 
 }

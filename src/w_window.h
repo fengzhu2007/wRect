@@ -1,27 +1,14 @@
-#ifndef W_MAIN_WINDOW_H
-#define W_MAIN_WINDOW_H
+#ifndef W_WINDOW_H
+#define W_WINDOW_H
 #include "global.h"
-#include <QMainWindow>
-
-#ifdef Q_OS_MAC
-class WRECT_EXPORT wMainWindow : public QMainWindow
+#include <QWidget>
+class wWindowPrivate;
+class WRECT_EXPORT wWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit wMainWindow(QWidget *parent = nullptr);
-    ~wMainWindow();
-    void resetupUi();
-};
-
-
-#else
-class wMainWindowPrivate;
-class WRECT_EXPORT wMainWindow : public QMainWindow
-{
-    Q_OBJECT
-public:
-    explicit wMainWindow(QWidget *parent = nullptr);
-    ~wMainWindow();
+    explicit wWindow(QWidget *parent = nullptr);
+    ~wWindow();
     void setCentralWidget(QWidget* widget);
     void resetupUi();
 
@@ -31,8 +18,6 @@ public:
     void showMaximized();
     void showNormal();
     void setStyleSheet(const QString& stylesheet);
-
-    QMenuBar* menuBar();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
@@ -45,14 +30,8 @@ private:
 
 
 private:
-    wMainWindowPrivate* d;
-
-
+    wWindowPrivate* d;
 signals:
-
 };
 
-#endif
-
-
-#endif // W_MAIN_WINDOW_H
+#endif // W_WINDOW_H

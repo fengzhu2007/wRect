@@ -5,17 +5,20 @@
 #include <QMenuBar>
 class wMainWindow;
 class wDialog;
+class wWindow;
 class wWindowNClientPrivate;
 class wWindowNClient : public QFrame
 {
     Q_OBJECT
 public:
     enum Mode {
-        Window=0,
-        Dialog
+        MainWindow=0,
+        Dialog,
+        Window
     };
     explicit wWindowNClient(wMainWindow* parent);
-    wWindowNClient(wDialog* parent);
+    explicit wWindowNClient(wDialog* parent);
+    explicit wWindowNClient(wWindow* parent);
     void addMenuBar(QMenuBar* menuBar);
     void showMaximizedMode();
     void showNormalMode();
