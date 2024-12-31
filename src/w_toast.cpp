@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QTimer>
 #include <QPainter>
+#include <QStyleOption>
+#include <QTextLayout>
 #include <QDebug>
 wToastManager* wToastManager::instance = nullptr;
 
@@ -97,40 +99,24 @@ void wToast::autoClose(int msecond){
 
 void wToast::paintEvent(QPaintEvent *e){
     QPainter painter(this);
-    QString text = this->text();
-    QFont font = this->font();
-    QFontMetrics metrics(font);
-    QMargins marins = contentsMargins();
-    int textWidth = metrics.horizontalAdvance(text) + marins.left() + marins.right();
-    int textHeight = metrics.height();
-
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setBrush(QColor(0, 0, 0,180));
     painter.setPen(Qt::NoPen);
+
+    QString text = this->text();
+    QFont font = this->font();
+    QFontMetrics metrics(font);
+
+    QRect textRect = metrics.boundingRect({0,0,320,320},Qt::TextWordWrap,text);
+    int textWidth = textRect.width() + 16;
+    int textHeight = textRect.height() + 16;
+
     QRect rc = this->geometry();
-    if(textWidth > rc.width()){
-        int maxWidth = this->maximumWidth();
-        //int minHeight = this->minimumHeight();
-        //qDebug()<<"textWidth:"<<textWidth<<";maxWidth:"<<maxWidth;
-        int line = 1;
-        if(textWidth>maxWidth){
-            line = static_cast<int>(std::ceil(textWidth*1.0f / maxWidth));
-            textWidth = maxWidth;
-
-            if(line>1){
-                rc.setY(rc.y() - textHeight*0.4*line);
-            }
-            rc.setHeight((textHeight * 1.8) * line);
-        }else{
-            //rc.setHeight((textHeight * 1.8) * line);
-        }
-
-        rc.setX(rc.x() - (textWidth - rc.width()) / 2);
-        rc.setWidth(textWidth);
-        //rc.setHeight()
-        //qDebug()<<"line:"<<line<<rc<<(textHeight * 1.4) * line;
-        this->setGeometry(rc);
-    }
+    rc.setX(rc.x() - (textWidth - rc.width()) / 2);
+    rc.setWidth(textWidth);
+    rc.setY(rc.y() - textHeight);
+    rc.setHeight(textHeight);
+    this->setGeometry(rc);
     painter.drawRoundedRect(QRect(0,0,rc.width(),rc.height()),3,3);
     QLabel::paintEvent(e);
 }
@@ -142,6 +128,7 @@ void wToast::enterEvent(QEvent *event){
 void wToast::leaveEvent(QEvent *event){
     this->autoClose(wToast::timeout);
 }*/
+
 void wToast::showText(const QString& text){
 
     QWidget* widget = wToastManager::getInstance()->container();
