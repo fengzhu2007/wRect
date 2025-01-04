@@ -58,7 +58,9 @@ void wSystemButton::updateIcon(){
     }else if(d->state==wSystemButton::Active){
         state = "active";
     }
-    setIcon(QIcon(QString::fromUtf8(":/images/%1_%2.png").arg(mode).arg(state)));
+    //dark theme
+    setIcon(QIcon(QString::fromUtf8(":/images/%1_%2.png").arg(mode).arg("active")));
+    //setIcon(QIcon(QString::fromUtf8(":/images/%1_%2.png").arg(mode).arg(state)));
 }
 
 void wSystemButton::onClicked(){
