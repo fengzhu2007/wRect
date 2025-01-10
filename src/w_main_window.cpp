@@ -49,6 +49,7 @@ wMainWindow::wMainWindow(QWidget *parent)
 {
     d = new wMainWindowPrivate();
     setWindowFlags(Qt::FramelessWindowHint);
+    //qDebug()<<"qss:"<<wQSS::global();
     QMainWindow::setStyleSheet(wQSS::global());
 
     initResizer();

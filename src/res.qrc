@@ -1,19 +1,20 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/close_active.png</file>
-        <file>images/close_hover.png</file>
-        <file>images/close_normal.png</file>
-        <file>images/maximize_active.png</file>
-        <file>images/maximize_hover.png</file>
         <file>images/maximize_normal.png</file>
-        <file>images/minimize_active.png</file>
-        <file>images/minimize_hover.png</file>
-        <file>images/minimize_normal.png</file>
-        <file>images/restore_active.png</file>
-        <file>images/restore_hover.png</file>
-        <file>images/restore_normal.png</file>
         <file>images/logo.png</file>
         <file>images/toolbar_handle.png</file>
         <file>images/Loading_16x.svg</file>
+        <file>images/Close_16x.svg</file>
+        <file>images/CloseActive_16x.svg</file>
+        <file>images/CloseHover_16x.svg</file>
+        <file>images/Maximize_16x.svg</file>
+        <file>images/MaximizeActive_16x.svg</file>
+        <file>images/MaximizeHover_16x.svg</file>
+        <file>images/Minimize_16x.svg</file>
+        <file>images/MinimizeActive_16x.svg</file>
+        <file>images/MinimizeHover_16x.svg</file>
+        <file>images/Restore_16x.svg</file>
+        <file>images/RestoreActive_16x.svg</file>
+        <file>images/RestoreHover_16x.svg</file>
     </qresource>
 </RCC>

@@ -60,6 +60,7 @@ wWindowNClient::wWindowNClient(wMainWindow* parent)
 
 wWindowNClient::wWindowNClient(wDialog* parent)
 :QFrame(parent){
+    this->setObjectName(QLatin1String("dialog_nclient"));
     this->initView(Dialog);
 }
 

@@ -3,6 +3,7 @@
 #include "w_dialog.h"
 #include "w_window.h"
 #include "w_window_nclient.h"
+#include "w_qss.h"
 #include <QMouseEvent>
 #include <QDebug>
 class wSystemButtonPrivate{
@@ -43,24 +44,27 @@ void wSystemButton::updateIcon(){
     QString mode;
     QString state;
     if(d->mode==wSystemButton::Close){
-        mode = "close";
+        mode = "Close";
     }else if(d->mode==wSystemButton::Minimize){
-        mode = "minimize";
+        mode = "Minimize";
     }else if(d->mode==wSystemButton::Maximize){
-        mode = "maximize";
+        mode = "Maximize";
     }else if(d->mode==wSystemButton::Restore){
-        mode = "restore";
+        mode = "Restore";
     }
     if(d->state==wSystemButton::Normal){
-        state = "normal";
+        state = "";
     }else if(d->state==wSystemButton::Hover){
-        state = "hover";
+        state = "Hover";
     }else if(d->state==wSystemButton::Active){
-        state = "active";
+        state = "Active";
     }
     //dark theme
-    setIcon(QIcon(QString::fromUtf8(":/images/%1_%2.png").arg(mode).arg("active")));
-    //setIcon(QIcon(QString::fromUtf8(":/images/%1_%2.png").arg(mode).arg(state)));
+    if(wQSS::theme()==wQSS::Dark){
+        setIcon(QIcon(QString::fromUtf8(":/images/%1%2_16x.svg").arg(mode).arg("Active")));
+    }else{
+        setIcon(QIcon(QString::fromUtf8(":/images/%1%2_16x.svg").arg(mode).arg(state)));
+    }
 }
 
 void wSystemButton::onClicked(){

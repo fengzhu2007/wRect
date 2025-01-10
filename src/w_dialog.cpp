@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QLabel>
+#include <QStyleOption>
 #include <QDebug>
 
 
@@ -196,7 +197,7 @@ void wDialog::resizeEvent(QResizeEvent *event)
         QRect rc = this->rect();
         d->background->setGeometry(rc.x()+d->resizer_size,rc.y()+d->resizer_size,rc.width()-2*d->resizer_size,rc.height()-2*d->resizer_size);
     }
-    qDebug()<<event->size()<<this->rect()<<this->layout()->geometry()<<this->layout()->contentsMargins();
+    //qDebug()<<event->size()<<this->rect()<<this->layout()->geometry()<<this->layout()->contentsMargins();
 
 
 }
@@ -212,6 +213,7 @@ void wDialog::paintEvent(QPaintEvent *event){
     }else{
         painter.fillRect(d->resizer_size,d->resizer_size,rc.width() - 2*d->resizer_size,rc.height() - 2*d->resizer_size, Qt::white);
     }
+
 }
 
 void wDialog::showEvent(QShowEvent* event){
