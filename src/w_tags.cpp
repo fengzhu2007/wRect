@@ -16,7 +16,6 @@ public:
 wTags::wTags(QWidget *parent)
     : QWidget{parent}
 {
-    this->setStyleSheet(".QLabel{background:#F0F0F0;border-radius:4px}");
     d = new wTagsPrivate;
 }
 

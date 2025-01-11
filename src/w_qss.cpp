@@ -54,7 +54,8 @@ QString wQSS::global()
                       ".wWindowNClient{background-color:#EEEEF2;}"
                       ".wWindowNClient>QLabel#system_logo{width:36px;height:32px;}"
                       ".wWindowNClient>QLabel#system_title{height:32px;padding:0 4px 0 4px}"
-                      ".wProgressBar>QFrame#bar{background-color:#007acc}";
+                      ".wProgressBar>QFrame#bar{background-color:#007acc}"
+                      ".wTags QLabel{background:#F0F0F0;border-radius:4px}";
         return qss;
     }else{
         //vs2019 dark
@@ -81,7 +82,8 @@ QString wQSS::global()
             ".wWindowNClient#dialog_nclient{border-bottom:1px solid #494949}"
             ".wWindowNClient>QLabel#system_logo{width:36px;height:32px;}"
             ".wWindowNClient>QLabel#system_title{height:32px;padding:0 4px 0 4px;color:white;}"
-            ".wProgressBar>QFrame#bar{background-color:#007acc}";
+            ".wProgressBar>QFrame#bar{background-color:#007acc}"
+            ".wTags QLabel{background:#494949;border-radius:4px}";
         return qss;
     }
 
