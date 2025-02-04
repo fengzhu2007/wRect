@@ -76,7 +76,7 @@ wToast::wToast(const QString& text,QWidget *parent)
     setWindowFlags((Qt::FramelessWindowHint | Qt::ToolTip));
     setAttribute(Qt::WA_DeleteOnClose);
     setAttribute(Qt::WA_TranslucentBackground);
-    this->setStyleSheet("background-color:black;color:white;font-size:14px;");
+    this->setStyleSheet("background-color:black;color:white;");
     this->setAlignment(Qt::AlignCenter);
     this->setContentsMargins(8,0,8,0);
 
