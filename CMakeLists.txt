@@ -47,6 +47,7 @@ add_library(wRect SHARED
     src/w_spin.h src/w_spin.cpp
     src/w_progress_bar.h src/w_progress_bar.cpp
     src/w_window.h src/w_window.cpp
+    src/w_badge.h src/w_badge.cpp
 
 )
 
