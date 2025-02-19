@@ -6,7 +6,7 @@
 class CircleText : public QWidget{
 public:
     explicit CircleText(QWidget* parent):QWidget(parent){
-
+        m_count = 0;
     }
 
     void setCount(int count){
