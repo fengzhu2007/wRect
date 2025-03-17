@@ -112,22 +112,19 @@ void wToast::paintEvent(QPaintEvent *e){
     int textHeight = textRect.height() + 16;
 
     QRect rc = this->geometry();
-    rc.setX(rc.x() - (textWidth - rc.width()) / 2);
-    rc.setWidth(textWidth);
+
+    if(rc.width()<textWidth){
+        rc.setX(rc.x() - (textWidth - rc.width()) / 2);
+        rc.setWidth(textWidth);
+    }
+
     rc.setY(rc.y() - textHeight);
     rc.setHeight(textHeight);
     this->setGeometry(rc);
     painter.drawRoundedRect(QRect(0,0,rc.width(),rc.height()),3,3);
     QLabel::paintEvent(e);
 }
-/*
-void wToast::enterEvent(QEvent *event){
-    d->timer.stop();
-}
 
-void wToast::leaveEvent(QEvent *event){
-    this->autoClose(wToast::timeout);
-}*/
 
 void wToast::showText(const QString& text){
 
