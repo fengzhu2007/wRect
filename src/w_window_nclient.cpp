@@ -158,6 +158,15 @@ void wWindowNClient::setWindowTitle(const QString& title){
     d->title->setText(title);
 }
 
+void wWindowNClient::setWindowIcon(const QString& pathname){
+    d->logo->setWindowIcon(QIcon(pathname));
+    QPixmap pixmap(pathname);
+    if(!pixmap.isNull()){
+        d->logo->setPixmap(pixmap.scaled(QSize(20,20),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    }
+
+}
+
 void wWindowNClient::buttonsReset(){
     if(d->close!=nullptr){
         QEvent leaveEvent(QEvent::Leave);

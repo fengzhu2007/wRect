@@ -180,6 +180,12 @@ void wMainWindow::setStyleSheet(const QString& stylesheet){
     QMainWindow::setStyleSheet(wQSS::global() + stylesheet);
 }
 
+void wMainWindow::setWindowIcon(const QString& pathname){
+    if(d->nclient){
+        d->nclient->setWindowIcon(pathname);
+    }
+}
+
 QMenuBar* wMainWindow::menuBar(){
     if(d->nclient!=nullptr){
         return d->nclient->menuBar();

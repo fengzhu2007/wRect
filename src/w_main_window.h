@@ -31,7 +31,7 @@ public:
     void showMaximized();
     void showNormal();
     void setStyleSheet(const QString& stylesheet);
-
+    void setWindowIcon(const QString& pathname);
     QMenuBar* menuBar();
 
 protected:

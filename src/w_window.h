@@ -18,6 +18,7 @@ public:
     void showMaximized();
     void showNormal();
     void setStyleSheet(const QString& stylesheet);
+    void setWindowIcon(const QString& pathname);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
