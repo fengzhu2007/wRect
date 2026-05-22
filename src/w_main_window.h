@@ -15,6 +15,7 @@ public:
 
 
 #else
+class wWindowNClient;
 class wMainWindowPrivate;
 class WRECT_EXPORT wMainWindow : public QMainWindow
 {
@@ -32,7 +33,9 @@ public:
     void showNormal();
     void setStyleSheet(const QString& stylesheet);
     void setWindowIcon(const QString& pathname);
+    void setWindowTitle(const QString& title);
     QMenuBar* menuBar();
+    wWindowNClient* nClient();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

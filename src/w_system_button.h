@@ -1,10 +1,10 @@
 #ifndef W_SYSTEM_BUTTON_H
 #define W_SYSTEM_BUTTON_H
-
+#include "global.h"
 #include <QPushButton>
 
 class wSystemButtonPrivate;
-class wSystemButton : public QPushButton
+class WRECT_EXPORT wSystemButton : public QPushButton
 {
     Q_OBJECT
 public:
@@ -12,7 +12,8 @@ public:
         Close=0,
         Minimize,
         Maximize,
-        Restore
+        Restore,
+        Custome,
 
     };
     enum State{

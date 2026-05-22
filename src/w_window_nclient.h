@@ -1,13 +1,13 @@
 #ifndef W_WINDOW_NCLIENT_H
 #define W_WINDOW_NCLIENT_H
-
+#include "global.h"
 #include <QFrame>
 #include <QMenuBar>
 class wMainWindow;
 class wDialog;
 class wWindow;
 class wWindowNClientPrivate;
-class wWindowNClient : public QFrame
+class WRECT_EXPORT wWindowNClient : public QFrame
 {
     Q_OBJECT
 public:
@@ -16,6 +16,12 @@ public:
         Dialog,
         Window
     };
+    enum IndexOrder{
+        Logo = 1000,
+        Title,
+        Stretch,
+    };
+
     explicit wWindowNClient(wMainWindow* parent);
     explicit wWindowNClient(wDialog* parent);
     explicit wWindowNClient(wWindow* parent);
@@ -28,6 +34,12 @@ public:
     void setWindowTitle(const QString& title);
     void setWindowIcon(const QString& pathname);
     void buttonsReset();
+    int widgetCount();
+    void addWidget(int index,QWidget* widget);
+    int findWidget(int name);
+    int findWidget(QWidget* widget);
+    void setStretch(QWidget* stretch);
+
 
 public slots:
     void showContextMenu(const QPoint &pos);

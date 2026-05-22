@@ -2,6 +2,7 @@
 #define W_WINDOW_H
 #include "global.h"
 #include <QWidget>
+class wWindowNClient;
 class wWindowPrivate;
 class WRECT_EXPORT wWindow : public QWidget
 {
@@ -19,6 +20,7 @@ public:
     void showNormal();
     void setStyleSheet(const QString& stylesheet);
     void setWindowIcon(const QString& pathname);
+    wWindowNClient* nClient();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

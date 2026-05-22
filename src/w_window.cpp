@@ -167,6 +167,10 @@ void wWindow::setWindowIcon(const QString& pathname){
     }
 }
 
+wWindowNClient* wWindow::nClient(){
+    return d->nclient;
+}
+
 void wWindow::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);

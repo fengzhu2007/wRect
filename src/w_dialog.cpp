@@ -156,6 +156,12 @@ void wDialog::setStyleSheet(const QString& qss){
     QDialog::setStyleSheet(wQSS::global()+qss);
 }
 
+void wDialog::setWindowIcon(const QString& pathname){
+    if(d->nclient){
+        d->nclient->setWindowIcon(pathname);
+    }
+}
+
 void wDialog::hideNClient(){
     QLayout* layout = this->layout();
     if(layout!=nullptr){
@@ -186,6 +192,10 @@ void wDialog::showNClient(){
 
     }
     d->nclient->show();
+}
+
+wWindowNClient* wDialog::nClient(){
+    return d->nclient;
 }
 
 void wDialog::resizeEvent(QResizeEvent *event)

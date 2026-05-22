@@ -24,6 +24,7 @@ public:
     wSystemButton* close = nullptr;
     wSystemButton* minimize = nullptr;
     wSystemButton* maximize = nullptr;
+    QWidget* stretch=nullptr;
     QLabel* logo;
     QLabel* title;
     QMenuBar* menuBar = nullptr;
@@ -37,12 +38,8 @@ public:
     QAction* sysMinimize = nullptr;
     QAction* sysMaximize = nullptr;
     QAction* sysClose = nullptr;
-
-
-
-    //wMainWindow* parent = nullptr;
     wWindowNClient::Mode mode;
-
+    //QList<QWidget*>widgets;
 };
 
 
@@ -103,11 +100,17 @@ void wWindowNClient::initView(Mode mode){
     layout->setSpacing(0);
     layout->addSpacing(6);
     layout->addWidget(d->logo);
-    layout->addStretch(1);
-    if(d->minimize!=nullptr)
-    layout->addWidget(d->minimize);
-    if(d->maximize!=nullptr)
-    layout->addWidget(d->maximize);
+
+    d->stretch = new QWidget(this);
+    layout->addWidget(d->stretch,1);
+    //layout->addStretch(1);
+    //d->widgets.append(nullptr);
+    if(d->minimize!=nullptr){
+        layout->addWidget(d->minimize);
+    }
+    if(d->maximize!=nullptr){
+        layout->addWidget(d->maximize);
+    }
     layout->addWidget(d->close);
     this->setLayout(layout);
 }
@@ -152,8 +155,10 @@ void wWindowNClient::setWindowTitle(const QString& title){
     if(d->title==nullptr){
         d->title = new QLabel(this);
         d->title->setObjectName("system_title");
+        auto index = this->findWidget(IndexOrder::Stretch);
         QHBoxLayout* layout = (QHBoxLayout*)this->layout();
-        layout->insertWidget(2,d->title);
+        layout->insertWidget(index,d->title);
+        //d->widgets.insert(index,d->title);
     }
     d->title->setText(title);
 }
@@ -176,6 +181,63 @@ void wWindowNClient::buttonsReset(){
         QEvent leaveEvent(QEvent::Leave);
         QCoreApplication::sendEvent(d->minimize, &leaveEvent);
     }
+}
+
+int wWindowNClient::widgetCount(){
+    auto layout = static_cast<QHBoxLayout*>(this->layout());
+    return layout->count();
+}
+
+void wWindowNClient::addWidget(int index,QWidget* widget){
+    if(index<0){
+        index = 0;
+    }else if(index>=this->widgetCount()){
+        index = this->widgetCount() - 1;
+    }
+    auto layout = static_cast<QHBoxLayout*>(this->layout());
+    //widget->setParent(this);
+    layout->insertWidget(index,widget);
+}
+
+int wWindowNClient::findWidget(int name){
+    auto layout = static_cast<QHBoxLayout*>(this->layout());
+    if((name==wSystemButton::Minimize || name==wSystemButton::Restore) && d->minimize!=nullptr){
+        return layout->indexOf(d->minimize);
+    }else if(name==wSystemButton::Close && d->close!=nullptr){
+        return layout->indexOf(d->close);
+    }else if(name==wSystemButton::Maximize && d->maximize!=nullptr){
+        return layout->indexOf(d->maximize);
+    }else if(name==IndexOrder::Logo && d->logo!=nullptr){
+        return layout->indexOf(d->logo);
+    }else if(name==IndexOrder::Title && d->title!=nullptr){
+        return layout->indexOf(d->title);
+    }else if(name==IndexOrder::Stretch && d->stretch!=nullptr){
+        return layout->indexOf(d->stretch);
+    }else{
+        return -1;
+    }
+}
+
+int wWindowNClient::findWidget(QWidget* widget){
+    if(widget==nullptr){
+        return -1;
+    }
+    auto layout = static_cast<QHBoxLayout*>(this->layout());
+    return layout->indexOf(widget);
+}
+
+void wWindowNClient::setStretch(QWidget* stretch){
+    auto layout = static_cast<QHBoxLayout*>(this->layout());
+    auto index = this->findWidget(IndexOrder::Stretch);
+    if(index==-1){
+        index = 0;
+    }
+    if(d->stretch!=nullptr){
+        layout->removeWidget(d->stretch);
+        delete d->stretch;
+    }
+    d->stretch = stretch;
+    layout->insertWidget(index,stretch,1);
 }
 
 void wWindowNClient::showContextMenu(const QPoint &pos){
