@@ -16,6 +16,7 @@ public:
     void removeToast(wToast* toast);
     QWidget* container();
 
+
 private:
     wToastManager(QWidget* container);
 
