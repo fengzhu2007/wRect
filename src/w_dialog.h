@@ -20,7 +20,7 @@ public:
 
 
 #else
-
+class wWindowNClient;
 class wDialogPrivate;
 class WRECT_EXPORT wDialog : public QDialog
 {
@@ -32,8 +32,10 @@ public:
     void updateNClient();
     void setWindowTitle(const QString& title);
     void setStyleSheet(const QString& qss);
+    void setWindowIcon(const QString& pathname);
     void hideNClient();
     void showNClient();
+    wWindowNClient* nClient();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

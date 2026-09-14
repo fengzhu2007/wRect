@@ -41,6 +41,9 @@ wSystemButton::State wSystemButton::state(){
 }
 
 void wSystemButton::updateIcon(){
+    if(d->mode==wSystemButton::Custome){
+        return ;
+    }
     QString mode;
     QString state;
     if(d->mode==wSystemButton::Close){

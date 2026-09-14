@@ -48,17 +48,16 @@ wToastManager::~wToastManager(){
 }
 
 void wToastManager::addToast(wToast* toast){
-
+    d->list.append(toast);
 }
 
 void wToastManager::removeToast(wToast* toast){
-
+    d->list.removeOne(toast);
 }
 
 QWidget* wToastManager::container(){
     return d->container;
 }
-
 
 
 
@@ -71,7 +70,7 @@ public:
 wToast::wToast(const QString& text,QWidget *parent)
     : QLabel{text,parent}
 {
-
+    auto instance = wToastManager::getInstance();
     this->setGraphicsEffect(nullptr);
     setWindowFlags((Qt::FramelessWindowHint | Qt::ToolTip));
     setAttribute(Qt::WA_DeleteOnClose);
@@ -86,9 +85,13 @@ wToast::wToast(const QString& text,QWidget *parent)
     this->setMaximumWidth(320);
     this->setWordWrap(true);
     //this->adjustSize();
+
+    instance->addToast(this);
 }
 
 wToast::~wToast(){
+    auto instance = wToastManager::getInstance();
+    instance->removeToast(this);
     delete d;
 }
 

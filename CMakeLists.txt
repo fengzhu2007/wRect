@@ -50,6 +50,8 @@ add_library(wRect SHARED
     src/w_badge.h src/w_badge.cpp
     src/w_popup_panel.h src/w_popup_panel.cpp
 
+    src/w_tab_bar.h src/w_tab_bar.cpp
+
 )
 
 

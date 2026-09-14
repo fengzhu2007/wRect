@@ -161,6 +161,16 @@ void wWindow::setStyleSheet(const QString& stylesheet){
     QWidget::setStyleSheet(wQSS::global() + stylesheet);
 }
 
+void wWindow::setWindowIcon(const QString& pathname){
+    if(d->nclient){
+        d->nclient->setWindowIcon(pathname);
+    }
+}
+
+wWindowNClient* wWindow::nClient(){
+    return d->nclient;
+}
+
 void wWindow::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
