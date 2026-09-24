@@ -14,7 +14,7 @@ public:
     bool autoClose = true;
     int borderRadius = 6;
     int contentPadding = 8;
-    QColor bgColor = QColor(0, 0, 0, 160);
+    QColor bgColor = QColor(0, 0, 0, 255);
     QWidget *targetWidget = nullptr;
     wPopupPanel::Direction targetDirection = wPopupPanel::BottomCenter;
 };
@@ -100,6 +100,12 @@ void wPopupPanel::setBackgroundColor(const QColor &color)
 QColor wPopupPanel::backgroundColor() const
 {
     return d->bgColor;
+}
+
+void wPopupPanel::setBackgroundOpacity(int opacity)
+{
+    d->bgColor.setAlpha(qBound(0, opacity, 255));
+    update();
 }
 
 void wPopupPanel::showPopup(QWidget *target, Direction direction)
@@ -242,10 +248,11 @@ void wPopupPanel::paintEvent(QPaintEvent *event)
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(event->rect(), d->bgColor);
 
-    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    painter.setPen(QPen(QColor(255, 255, 255, 30), 1));
-    painter.setBrush(Qt::NoBrush);
-    painter.drawRoundedRect(rect().adjusted(0, 0, -1, -1), d->borderRadius, d->borderRadius);
+    // TODO: border/shadow disabled for debugging rounded corners
+    //painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    //painter.setPen(QPen(QColor(255, 255, 255, 30), 1));
+    //painter.setBrush(Qt::NoBrush);
+    //painter.drawRoundedRect(rect().adjusted(0, 0, -1, -1), d->borderRadius, d->borderRadius);
 
     QWidget::paintEvent(event);
 }

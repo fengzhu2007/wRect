@@ -55,6 +55,9 @@ public:
     void setBackgroundColor(const QColor &color);
     QColor backgroundColor() const;
 
+    /// 背景透明度 (0-255)，修改当前背景色的 alpha 通道
+    void setBackgroundOpacity(int opacity);
+
     /// 在目标控件的指定方向弹出显示
     void showPopup(QWidget *target, Direction direction = BottomCenter);
 
