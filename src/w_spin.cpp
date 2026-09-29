@@ -58,8 +58,10 @@ void wSpin::showLoading(){
 }
 
 void wSpin::hideLoading(){
-    d->spin->hide();
-    d->mask->hide();
+    if(d->spin!=nullptr){
+        d->spin->hide();
+        d->mask->hide();
+    }
 }
 
 void wSpin::resize(){
