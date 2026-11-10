@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+# Qt6 要求 CMake >= 3.16
+cmake_minimum_required(VERSION 3.16)
 
-project(wRect)
+project(wRect LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -9,13 +10,27 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-if(WIN32)
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core WinExtras Svg)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core WinExtras Svg)
-else()
-    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core  Svg)
-    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core  Svg)
+# Qt5/Qt6 共有组件（只用共有组件做版本探测，否则仅装了其中一个版本时会直接失败）
+set(WRECT_QT_COMPONENTS Widgets Core Svg)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS ${WRECT_QT_COMPONENTS})
+
+# 版本相关组件：
+#   Qt6 : QSvgWidget 已从 Svg 拆分到独立的 SvgWidgets 模块
+#   Qt5 : Windows 下仍使用 QtWinExtras（Qt6 已移除该模块）
+if(QT_VERSION_MAJOR EQUAL 6)
+    list(APPEND WRECT_QT_COMPONENTS SvgWidgets)
+elseif(WIN32)
+    list(APPEND WRECT_QT_COMPONENTS WinExtras)
 endif()
+
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS ${WRECT_QT_COMPONENTS})
+
+# 统一生成 QtX::Yyy 形式的导入目标名
+set(WRECT_QT_LIBS "")
+foreach(_wr_component ${WRECT_QT_COMPONENTS})
+    list(APPEND WRECT_QT_LIBS Qt${QT_VERSION_MAJOR}::${_wr_component})
+endforeach()
 
 
 
@@ -29,7 +44,11 @@ set(RESOURCES
     src/res.qrc
 )
 
-qt5_add_resources(RESOURCE_ADDED ${RESOURCES})
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_add_resources(RESOURCE_ADDED ${RESOURCES})
+else()
+    qt5_add_resources(RESOURCE_ADDED ${RESOURCES})
+endif()
 
 
 add_library(wRect SHARED
@@ -57,14 +76,7 @@ add_library(wRect SHARED
 
 
 
-if(WIN32)
-
-target_link_libraries(wRect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::WinExtras Qt${QT_VERSION_MAJOR}::Svg)
-
-else()
-    target_link_libraries(wRect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core  Qt${QT_VERSION_MAJOR}::Svg)
-
-endif()
+target_link_libraries(wRect PRIVATE ${WRECT_QT_LIBS})
 
 target_compile_definitions(wRect PRIVATE WRECT_LIBRARY)
 

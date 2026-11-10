@@ -10,7 +10,7 @@ public:
 
 wFlowLayout::wFlowLayout(QWidget* parent, int margin, int spacing)
     :QLayout(parent){
-    setMargin(margin);
+    setContentsMargins(margin, margin, margin, margin);
     setSpacing(spacing);
     d = new wFlowLayoutPrivate;
 }

@@ -110,7 +110,11 @@ void wSystemButton::onClicked(){
 
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void wSystemButton::enterEvent(QEnterEvent *event){
+#else
 void wSystemButton::enterEvent(QEvent *event){
+#endif
     QPushButton::enterEvent(event);
     setState(wSystemButton::Hover);
 

@@ -2,6 +2,9 @@
 #define W_SYSTEM_BUTTON_H
 #include "global.h"
 #include <QPushButton>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QEnterEvent>
+#endif
 
 class wSystemButtonPrivate;
 class WRECT_EXPORT wSystemButton : public QPushButton
@@ -35,7 +38,11 @@ public slots:
     void onClicked();
 
 protected:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    virtual void enterEvent(QEnterEvent *event) override;
+#else
     virtual void enterEvent(QEvent *event) override;
+#endif
     virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

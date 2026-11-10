@@ -51,7 +51,7 @@ void wTags::addTag(const QString& text){
 void wTags::paintEvent(QPaintEvent *e){
     Q_UNUSED(e);
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

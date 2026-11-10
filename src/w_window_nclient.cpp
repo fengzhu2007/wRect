@@ -96,7 +96,7 @@ void wWindowNClient::initView(Mode mode){
     }
 
     QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addSpacing(6);
     layout->addWidget(d->logo);
@@ -360,7 +360,7 @@ void wWindowNClient::paintEvent(QPaintEvent *e)
     //QFrame::paintEvent(e);
     Q_UNUSED(e);
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
 }

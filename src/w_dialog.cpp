@@ -180,7 +180,7 @@ void wDialog::hideNClient(){
 void wDialog::showNClient(){
     QLayout* layout = this->layout();
     if(layout!=nullptr){
-        layout->setMargin(0);
+        layout->setContentsMargins(0, 0, 0, 0);
         QMargins margins = layout->contentsMargins();
         if(!margins.isNull()){
             margins.setTop(margins.top()+32);
